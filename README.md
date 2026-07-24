@@ -1,16 +1,16 @@
 # RV32I 5-Stage Pipelined Processor
 
-A 32-bit Single-Core RISC-V (RV32I) processor implemented in Verilog HDL. This project is being developed incrementally by first building and verifying a functionally correct single-cycle processor, followed by its conversion into a classic five-stage pipelined processor.
+A 32-bit Single-Core RISC-V (RV32I) processor implemented in Verilog HDL. The project is being developed incrementally by first building and verifying a functionally correct single-cycle processor and then converting it into a classic five-stage pipelined processor.
 
 ---
 
 ## Project Objectives
 
 - Design and implement a 32-bit Single-Core RISC-V (RV32I) processor.
-- Verify every RTL module using dedicated testbenches.
-- Convert the verified single-cycle processor into a 5-stage pipelined processor.
+- Develop and verify a functionally correct single-cycle processor.
+- Convert the design into a five-stage pipelined processor.
 - Implement forwarding, hazard detection, load-use stall logic, and branch handling.
-- Follow professional RTL design and verification practices.
+- Follow modular RTL design and verification practices.
 
 ---
 
@@ -19,9 +19,10 @@ A 32-bit Single-Core RISC-V (RV32I) processor implemented in Verilog HDL. This p
 | Feature | Specification |
 |----------|---------------|
 | ISA | RV32I (Subset) |
+| Architecture | Single-Core |
 | Data Width | 32-bit |
-| Core | Single-Core |
 | Pipeline | 5-Stage (Target) |
+| Register File | 32 × 32-bit |
 | Language | Verilog HDL |
 | Development Flow | Single-Cycle → Pipelined |
 
@@ -55,12 +56,25 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │
 ├── sim/
 │
-├── README.md
+└── README.md
 ```
 
 ---
 
-## Development Progress
+## Development Workflow
+
+Each module follows the workflow below:
+
+1. Define the module specification.
+2. Implement the RTL in Verilog.
+3. Develop the testbench.
+4. Perform functional simulation.
+5. Fix issues, if any.
+6. Commit the verified module to GitHub.
+
+---
+
+## Project Progress
 
 | Module | RTL | Testbench | Simulation | Status |
 |---------|:---:|:---------:|:----------:|:------:|
@@ -77,16 +91,14 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 
 ---
 
-## Verification Flow
+## Current Milestone
 
-Each module follows the same workflow:
-
-1. Module Specification
-2. RTL Implementation
-3. Testbench Development
-4. Functional Simulation
-5. Debugging
-6. GitHub Commit
+- ✅ Repository structure created
+- ✅ Processor specification completed
+- ✅ High-level architecture defined
+- ✅ Program Counter RTL completed
+- ✅ Program Counter testbench completed
+- ✅ Program Counter simulation verified
 
 ---
 
@@ -94,27 +106,26 @@ Each module follows the same workflow:
 
 - Verilog HDL
 - Xilinx Vivado
-- Git
 - GitHub
-
----
-
-## Current Milestone
-
-- ✅ Project structure created
-- ✅ Processor specification completed
-- ✅ High-level architecture defined
-- ✅ Program Counter (RTL + Testbench + Simulation) completed
 
 ---
 
 ## Future Work
 
-After completing the single-cycle processor:
+After completing the single-cycle processor, the project will be extended with:
 
-- Add pipeline registers (IF/ID, ID/EX, EX/MEM, MEM/WB)
-- Implement Forwarding Unit
-- Implement Hazard Detection Unit
-- Implement Load-Use Stall Logic
-- Implement Branch Flush Logic
-- Verify the complete pipelined processor
+- IF/ID Pipeline Register
+- ID/EX Pipeline Register
+- EX/MEM Pipeline Register
+- MEM/WB Pipeline Register
+- Forwarding Unit
+- Hazard Detection Unit
+- Load-Use Stall Logic
+- Branch Flush Logic
+- Complete 5-Stage Pipeline Integration
+
+---
+
+## License
+
+This project is developed for learning, educational, and portfolio purposes.
