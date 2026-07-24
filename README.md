@@ -56,7 +56,6 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 ├── sim/
 │
 ├── README.md
-└── .gitignore
 ```
 
 ---
