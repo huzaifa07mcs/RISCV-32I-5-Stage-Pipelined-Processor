@@ -1,11 +1,9 @@
 # RV32I 5-Stage Pipelined Processor
-
 A 32-bit Single-Core RISC-V (RV32I) processor implemented in Verilog HDL. The project is being developed incrementally by first building and verifying a functionally correct single-cycle processor and then converting it into a classic five-stage pipelined processor.
 
 ---
 
 ## Project Objectives
-
 - Design and implement a 32-bit Single-Core RISC-V (RV32I) processor.
 - Develop and verify a functionally correct single-cycle processor.
 - Convert the design into a five-stage pipelined processor.
@@ -15,7 +13,6 @@ A 32-bit Single-Core RISC-V (RV32I) processor implemented in Verilog HDL. The pr
 ---
 
 ## Processor Specifications
-
 | Feature | Specification |
 |----------|---------------|
 | ISA | RV32I (Subset) |
@@ -29,7 +26,6 @@ A 32-bit Single-Core RISC-V (RV32I) processor implemented in Verilog HDL. The pr
 ---
 
 ## Supported Instructions (Planned)
-
 | Type | Instructions |
 |------|--------------|
 | R-Type | ADD, SUB, AND, OR, XOR, SLT |
@@ -41,18 +37,30 @@ A 32-bit Single-Core RISC-V (RV32I) processor implemented in Verilog HDL. The pr
 ---
 
 ## Project Structure
-
 ```text
 RISCV-32I-5-Stage-Pipelined-Processor/
 │
 ├── docs/
-│   └── Specification.md
+│   ├── Specification.md
+│   ├── PC_Specification.md
+│   ├── InstructionMemory_Specification.md
+│   ├── RegisterFile_Specification.md
+│   ├── ImmediateGenerator_Specification.md
+│   └── ALU_Specification.md
 │
 ├── rtl/
-│   └── PC.v
+│   ├── PC.v
+│   ├── InstructionMemory.v
+│   ├── RegisterFile.v
+│   ├── ImmGen.v
+│   └── ALU.v
 │
 ├── tb/
-│   └── tb_PC.v
+│   ├── tb_PC.v
+│   ├── tb_InstructionMemory.v
+│   ├── tb_RegisterFile.v
+│   ├── tb_ImmGen.v
+│   └── tb_ALU.v
 │
 ├── sim/
 │
@@ -62,9 +70,7 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 ---
 
 ## Development Workflow
-
 Each module follows the workflow below:
-
 1. Define the module specification.
 2. Implement the RTL in Verilog.
 3. Develop the testbench.
@@ -75,14 +81,13 @@ Each module follows the workflow below:
 ---
 
 ## Project Progress
-
 | Module | RTL | Testbench | Simulation | Status |
 |---------|:---:|:---------:|:----------:|:------:|
 | Program Counter | ✅ | ✅ | ✅ | Complete |
-| Instruction Memory | ⏳ | ⏳ | ⏳ | Not Started |
-| Register File | ⏳ | ⏳ | ⏳ | Not Started |
-| Immediate Generator | ⏳ | ⏳ | ⏳ | Not Started |
-| ALU | ⏳ | ⏳ | ⏳ | Not Started |
+| Instruction Memory | ✅ | ✅ | ✅ | Complete |
+| Register File | ✅ | ✅ | ✅ | Complete |
+| Immediate Generator | ✅ | ✅ | ✅ | Complete |
+| ALU | ✅ | ✅ | ✅ | Complete |
 | ALU Control | ⏳ | ⏳ | ⏳ | Not Started |
 | Control Unit | ⏳ | ⏳ | ⏳ | Not Started |
 | Data Memory | ⏳ | ⏳ | ⏳ | Not Started |
@@ -92,18 +97,19 @@ Each module follows the workflow below:
 ---
 
 ## Current Milestone
-
 - ✅ Repository structure created
 - ✅ Processor specification completed
 - ✅ High-level architecture defined
-- ✅ Program Counter RTL completed
-- ✅ Program Counter testbench completed
-- ✅ Program Counter simulation verified
+- ✅ Program Counter RTL, testbench, and simulation completed
+- ✅ Instruction Memory RTL, testbench, and simulation completed
+- ✅ Register File RTL, testbench, and simulation completed
+- ✅ Immediate Generator RTL, testbench, and simulation completed
+- ✅ ALU RTL, testbench, and simulation completed
+- ⏳ Next: ALU Control module
 
 ---
 
 ## Tools
-
 - Verilog HDL
 - Xilinx Vivado
 - GitHub
@@ -111,9 +117,7 @@ Each module follows the workflow below:
 ---
 
 ## Future Work
-
 After completing the single-cycle processor, the project will be extended with:
-
 - IF/ID Pipeline Register
 - ID/EX Pipeline Register
 - EX/MEM Pipeline Register
@@ -127,5 +131,4 @@ After completing the single-cycle processor, the project will be extended with:
 ---
 
 ## License
-
 This project is developed for learning, educational, and portfolio purposes.
