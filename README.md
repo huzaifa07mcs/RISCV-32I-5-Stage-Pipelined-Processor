@@ -62,8 +62,6 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │   ├── tb_ImmGen.v
 │   └── tb_ALU.v
 │
-├── sim/
-│
 └── README.md
 ```
 
