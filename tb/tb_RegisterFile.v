@@ -89,7 +89,7 @@ module tb_RegisterFile;
         $display("TEST 5 - RegWrite=0, write ignored: read_data1 = %h (expected 10ABC120, unchanged)", read_data1);
 
         $display("All tests completed.");
-        #(200 - $time);
+        #(60 - $time);
         $finish;
     end
 
