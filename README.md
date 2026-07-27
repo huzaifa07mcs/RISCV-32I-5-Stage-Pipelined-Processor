@@ -56,7 +56,7 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │   ├── ALU_Specification.md
 │   ├── DataMemory_Specification.md
 │   ├── ALUControl_Specification.md
-│   └── ControlUnit_Specification.md
+│   └── MainControl_Specification.md
 │
 ├── rtl/
 │   ├── PC.v
@@ -66,7 +66,7 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │   ├── ALU.v
 │   ├── DataMemory.v
 │   ├── ALUControl.v
-│   └── ControlUnit.v
+│   └── MainControl.v
 │
 ├── tb/
 │   ├── tb_PC.v
@@ -76,7 +76,7 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │   ├── tb_ALU.v
 │   ├── tb_DataMemory.v
 │   ├── tb_ALUControl.v
-│   └── tb_ControlUnit.v
+│   └── tb_MainControl.v
 │
 └── README.md
 ```
