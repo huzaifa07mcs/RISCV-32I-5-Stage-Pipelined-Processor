@@ -1,7 +1,7 @@
 # Datapath_Integration — Module Specification
 
 ## 1. Module Name
-`Datapath` (top-level wiring of all Phase 1 modules, pre-Top-Module wrapper)
+`Datapath` 
 
 ## 2. Purpose
 Integrates all previously verified modules — PC, Instruction Memory, Register File, ImmGen, ALU, ALU_Control, Main Control, Data Memory — into one complete single-cycle RV32I datapath. This module adds no new functional logic beyond muxes and adders for PC update and write-back path selection; all instruction decode/ALU/memory behavior is delegated to the already-verified submodules.
