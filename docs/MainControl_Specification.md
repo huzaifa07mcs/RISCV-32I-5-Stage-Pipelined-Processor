@@ -62,13 +62,16 @@ Not applicable — no memory or registers to initialize.
 
 `X*` = **open item, not yet finalized** — see Section 8.1 below. Do not treat as confirmed don't-care until resolved.
 
-### 8.1 Open Design Question — JAL Datapath Routing
-JAL requires two values to be produced: (1) the jump target address (PC + immediate), and (2) the value written back to `rd` (PC + 4, i.e. return address). Whether `ALUSrc`, `ALUOp`, and `MemtoReg` are true don't-cares for JAL **depends entirely on how the datapath is wired**:
+### 8.1 JAL Datapath Routing 
+JAL's jump target (PC + immediate) and return address (PC + 4) are computed 
+by dedicated adders outside the main ALU, decoupled from the shared 
+ALU/ALU_Control path. This keeps ALU_Control scoped to R-type/I-type 
+arithmetic and branch comparison only, and avoids a structural conflict 
+in the pipelined design (Phase 2), where the branch/jump target needs to 
+be available early (ID stage) rather than waiting on the EX-stage ALU.
 
-- If JAL's target address is computed by a **dedicated adder outside the main ALU** (separate from operand_A/operand_B), and `rd` is written directly from a `PC+4` source (not through the ALU or memory-read mux), then `ALUSrc`, `ALUOp`, and `MemtoReg` are genuinely irrelevant for JAL, and the `X` values above hold.
-- If instead the design **reuses the main ALU** for either calculation, these signals must be set to specific values to force the correct ALU operation and mux selection — they are **not** don't-care in that case.
-
-**This must be resolved and this table updated before JAL RTL is finalized.** Confirm your datapath's JAL wiring before treating row 6 as final.
+`ALUSrc` and `ALUOp` are confirmed genuine don't-cares for JAL — the ALU 
+is never touched by this instruction.
 
 **Operation (combinational, conceptual):**
 
