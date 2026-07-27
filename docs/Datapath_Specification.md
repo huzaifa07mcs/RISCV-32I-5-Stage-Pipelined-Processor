@@ -31,7 +31,7 @@ All instruction decoding, ALU operations, memory accesses, and register file ope
 
 | Module | Purpose |
 |---------|---------|
-| `ProgramCounter` | Stores the current program counter |
+| `programcounter` | Stores the current program counter |
 | `InstructionMemory` | Stores program instructions |
 | `RegisterFile` | Stores the 32 general-purpose registers |
 | `ImmGen` | Generates immediates from instructions |
