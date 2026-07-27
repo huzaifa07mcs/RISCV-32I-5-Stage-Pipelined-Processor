@@ -85,12 +85,14 @@ This prevents unknown (`X`) values during simulation and makes functional verifi
 
 ### Write Operation (Synchronous)
 
+The ALU provides a **byte address**. Since each memory location stores one 32-bit word (4 bytes), the two least significant address bits (`address[1:0]`) are ignored, and `address[9:2]` is used as the word index.
+
 Memory is written only on the rising edge of the clock when `write_enable` is asserted.
 
 ```verilog
 always @(posedge clk) begin
     if (write_enable)
-        mem[address[7:0]] <= write_data;
+        mem[address[9:2]] <= write_data;
 end
 ```
 
@@ -101,19 +103,21 @@ end
 The selected memory location is continuously available on the output.
 
 ```verilog
-assign read_data = mem[address[7:0]];
+assign read_data = mem[address[9:2]];
 ```
 
 ---
 
 ### Design Notes
 
-- Writes occur only on the positive clock edge.
+- The ALU generates a **byte address** for load (`LW`) and store (`SW`) instructions.
+- Since each memory location stores a 32-bit word, the two least significant address bits are ignored when indexing the memory array.
+- Writes occur only on the rising edge of the clock.
 - Reads are asynchronous (combinational).
 - A combinational read is required in the single-cycle processor so that an `LW` instruction can complete within one clock cycle.
 - A synchronous read would delay the loaded data by one clock cycle, making it unsuitable for the single-cycle datapath.
 
----
+
 
 ## 9. Reset Behavior
 
