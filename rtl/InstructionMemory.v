@@ -11,6 +11,6 @@ module InstructionMemory #(
         $readmemh("program.mem", memory);
     end
     
-    assign instruction = memory[address[31:2]];
+    assign instruction = memory[address[9:2]];
 
 endmodule
