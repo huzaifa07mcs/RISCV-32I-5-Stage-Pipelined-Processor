@@ -65,17 +65,16 @@ The memory file contains one 32-bit instruction per line.
 
 ## 8. Functional Behavior
 
-- The Program Counter (PC) provides a byte address.
-- Since each instruction is 32 bits (4 bytes), the memory index is obtained by ignoring the two least significant address bits.
-- The instruction output updates whenever the address changes.
+- The Program Counter (PC) generates a **byte address**.
+- Since each instruction is 32 bits (4 bytes), the two least significant address bits (`address[1:0]`) are ignored to obtain the word index.
+- For a memory depth of 256 words, `address[9:2]` provides the required 8-bit memory index.
+- The instruction output updates immediately whenever the address changes (combinational read).
 
 Operation:
 
+```verilog
+assign instruction = memory[address[9:2]];
 ```
-instruction = memory[address[31:2]];
-```
-
----
 
 ## 9. Reset Behavior
 
