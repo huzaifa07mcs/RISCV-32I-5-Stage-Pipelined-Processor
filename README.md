@@ -1,7 +1,7 @@
 # RV32I 5-Stage Pipelined Processor
 
 A 32-bit Single-Core RISC-V (RV32I) processor implemented in Verilog HDL.  
-The project is being developed incrementally by first building and verifying a functionally correct single-cycle processor and then converting it into a classic five-stage pipelined processor.
+The project is being developed incrementally by first building and verifying a functionally correct **single-cycle processor** and then converting it into a classic **five-stage pipelined processor**.
 
 ---
 
@@ -22,15 +22,18 @@ The project is being developed incrementally by first building and verifying a f
 |----------|---------------|
 | ISA | RV32I (Subset) |
 | Architecture | Single-Core |
+| Current Implementation | Single-Cycle Processor |
+| Target Architecture | 5-Stage Pipeline |
 | Data Width | 32-bit |
-| Pipeline | 5-Stage (Target) |
 | Register File | 32 × 32-bit |
+| Instruction Memory | 256 × 32-bit |
+| Data Memory | 256 × 32-bit |
 | Language | Verilog HDL |
 | Development Flow | Single-Cycle → Pipelined |
 
 ---
 
-# Supported Instructions (Planned)
+# Supported Instructions
 
 | Type | Instructions |
 |------|--------------|
@@ -56,28 +59,33 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │   ├── ALU_Specification.md
 │   ├── DataMemory_Specification.md
 │   ├── ALUControl_Specification.md
-│   └── MainControl_Specification.md
+│   ├── MainControl_Specification.md
+│   └── Datapath_Specification.md
 │
 ├── rtl/
-│   ├── PC.v
+│   ├── ProgramCounter.v
 │   ├── InstructionMemory.v
 │   ├── RegisterFile.v
 │   ├── ImmGen.v
 │   ├── ALU.v
 │   ├── DataMemory.v
-│   ├── ALUControl.v
-│   └── MainControl.v
+│   ├── ALU_Control.v
+│   ├── MainControl.v
+│   ├── Datapath.v
+│   └── Top.v
 │
 ├── tb/
-│   ├── tb_PC.v
+│   ├── tb_ProgramCounter.v
 │   ├── tb_InstructionMemory.v
 │   ├── tb_RegisterFile.v
 │   ├── tb_ImmGen.v
 │   ├── tb_ALU.v
 │   ├── tb_DataMemory.v
-│   ├── tb_ALUControl.v
-│   └── tb_MainControl.v
+│   ├── tb_ALU_Control.v
+│   ├── tb_MainControl.v
+│   └── tb_Top.v
 │
+├── program.mem
 └── README.md
 ```
 
@@ -88,11 +96,11 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 Each module follows the workflow below:
 
 1. Define the module specification.
-2. Implement RTL design in Verilog.
+2. Implement the RTL in Verilog HDL.
 3. Develop the corresponding testbench.
 4. Perform functional simulation.
 5. Verify expected behavior.
-6. Debug and fix issues if required.
+6. Fix bugs if required.
 7. Commit the verified module to GitHub.
 
 ---
@@ -102,10 +110,12 @@ Each module follows the workflow below:
 ## Program Counter (PC)
 
 ### Purpose
-- Stores the address of the current instruction.
-- Updates instruction address every clock cycle.
+
+- Stores the current instruction address.
+- Updates the PC every clock cycle.
 
 ### Status
+
 - RTL Implementation ✅
 - Testbench ✅
 - Simulation Verification ✅
@@ -115,10 +125,13 @@ Each module follows the workflow below:
 ## Instruction Memory
 
 ### Purpose
+
 - Stores program instructions.
-- Provides instruction output based on PC address.
+- Fetches instructions using the Program Counter.
+- Supports byte-addressed instruction fetch (`address[31:2]`).
 
 ### Status
+
 - RTL Implementation ✅
 - Testbench ✅
 - Simulation Verification ✅
@@ -128,10 +141,13 @@ Each module follows the workflow below:
 ## Register File
 
 ### Purpose
-- Implements 32 general-purpose RISC-V registers.
-- Provides two read ports and one write port.
+
+- Implements 32 general-purpose RV32I registers.
+- Supports two read ports and one write port.
+- Register x0 is permanently hardwired to zero.
 
 ### Status
+
 - RTL Implementation ✅
 - Testbench ✅
 - Simulation Verification ✅
@@ -141,16 +157,18 @@ Each module follows the workflow below:
 ## Immediate Generator
 
 ### Purpose
-- Generates immediate values from RISC-V instruction formats.
+
+Generates immediate values from RV32I instructions.
 
 ### Supported Formats
+
 - I-Type
 - S-Type
 - B-Type
 - J-Type
-- U-Type
 
 ### Status
+
 - RTL Implementation ✅
 - Testbench ✅
 - Simulation Verification ✅
@@ -160,9 +178,11 @@ Each module follows the workflow below:
 ## ALU (Arithmetic Logic Unit)
 
 ### Purpose
-- Performs arithmetic and logical operations.
+
+Performs arithmetic and logical operations.
 
 ### Supported Operations
+
 - ADD
 - SUB
 - AND
@@ -171,6 +191,7 @@ Each module follows the workflow below:
 - SLT
 
 ### Status
+
 - RTL Implementation ✅
 - Testbench ✅
 - Simulation Verification ✅
@@ -180,14 +201,18 @@ Each module follows the workflow below:
 ## Data Memory
 
 ### Purpose
-- Provides data storage for memory access instructions.
-- Handles read and write operations.
+
+- Stores data for load and store instructions.
+- Supports synchronous writes and combinational reads.
+- Uses byte-addressed memory access (`address[9:2]`).
 
 ### Supported Instructions
+
 - LW
 - SW
 
 ### Status
+
 - RTL Implementation ✅
 - Testbench ✅
 - Simulation Verification ✅
@@ -197,13 +222,15 @@ Each module follows the workflow below:
 ## ALU Control Unit
 
 ### Purpose
-- Generates ALU operation signals.
-- Uses instruction fields:
-  - funct3
-  - funct7
-  - ALUOp
+
+Generates ALU control signals using:
+
+- ALUOp
+- funct3
+- funct7
 
 ### Status
+
 - RTL Implementation ✅
 - Testbench ✅
 - Simulation Verification ✅
@@ -213,22 +240,90 @@ Each module follows the workflow below:
 ## Main Control Unit
 
 ### Purpose
-- Generates the control signals required for datapath operation.
+
+Generates all datapath control signals.
 
 ### Generated Control Signals
 
-- Branch
-- MemRead
-- MemWrite
-- MemToReg
-- ALUSrc
 - RegWrite
+- ALUSrc
+- MemWrite
+- MemtoReg
+- Branch
+- Jump
 - ALUOp
+- ImmSrc
 
 ### Status
+
 - RTL Implementation ✅
 - Testbench ✅
 - Simulation Verification ✅
+
+---
+
+## Single-Cycle Datapath
+
+### Purpose
+
+Integrates all verified hardware modules into a complete RV32I single-cycle processor.
+
+### Features
+
+- Instruction Fetch
+- Instruction Decode
+- Register Read
+- Immediate Generation
+- ALU Execution
+- Data Memory Access
+- Register Write Back
+- Branch Decision Logic
+- Jump (JAL) Support
+- PC + 4 Logic
+- PC + Immediate Logic
+- ALUSrc Multiplexer
+- MemtoReg Multiplexer
+- JAL Write-Back Multiplexer
+
+### Status
+
+- RTL Implementation ✅
+- Functional Simulation ✅
+- Processor Verification ✅
+
+---
+
+# Processor Verification
+
+The integrated single-cycle processor has been verified using a custom RISC-V program executing multiple instructions.
+
+### Verified Instructions
+
+- ADDI
+- ADD
+- SUB
+- AND
+- OR
+- XOR
+- SLT
+- LW
+- SW
+- BEQ
+- BNE
+- JAL
+
+### Verified Functionality
+
+- Correct PC update
+- Correct instruction fetch
+- Correct instruction decode
+- Correct register read/write
+- Correct immediate generation
+- Correct ALU operations
+- Correct memory read/write
+- Correct write-back path
+- Correct branch handling (BEQ/BNE)
+- Correct jump handling (JAL)
 
 ---
 
@@ -243,9 +338,9 @@ Each module follows the workflow below:
 | ALU | ✅ | ✅ | ✅ | Complete |
 | Data Memory | ✅ | ✅ | ✅ | Complete |
 | ALU Control | ✅ | ✅ | ✅ | Complete |
-| Control Unit | ✅ | ✅ | ✅ | Complete |
-| Single-Cycle Datapath Integration | ⏳ | ⏳ | ⏳ | Not Started |
-| Single-Cycle Processor Verification | ⏳ | ⏳ | ⏳ | Not Started |
+| Main Control | ✅ | ✅ | ✅ | Complete |
+| Single-Cycle Datapath | ✅ | ✅ | ✅ | Complete |
+| Single-Cycle Processor Verification | ✅ | ✅ | ✅ | Complete |
 | Pipeline Conversion | ⏳ | ⏳ | ⏳ | Not Started |
 
 ---
@@ -254,76 +349,54 @@ Each module follows the workflow below:
 
 Completed:
 
-- ✅ Repository structure created
-- ✅ Processor specification completed
-- ✅ High-level architecture defined
-- ✅ Program Counter completed
-- ✅ Instruction Memory completed
-- ✅ Register File completed
-- ✅ Immediate Generator completed
-- ✅ ALU completed
-- ✅ Data Memory completed
-- ✅ ALU Control completed
-- ✅ Main Control Unit completed
+- ✅ Processor specification
+- ✅ Modular RTL implementation
+- ✅ Individual module verification
+- ✅ Single-cycle datapath integration
+- ✅ Complete processor simulation
+- ✅ Program execution verification
+- ✅ Branch and jump verification
+- ✅ Memory subsystem verification
 
 ---
 
 # Current Stage
 
-## Next Task: Single-Cycle Datapath Integration
+## Next Task: Pipeline Conversion
 
-The completed modules will now be connected together to create the complete single-cycle RISC-V processor.
+The verified single-cycle processor will now be converted into a classic five-stage pipelined processor.
 
-Integration includes:
-
-- Program Counter connection
-- Instruction Memory connection
-- Instruction decoding
-- Register File connection
-- Immediate Generator connection
-- Main Control Unit connection
-- ALU Control connection
-- ALU connection
-- Data Memory connection
-- Write-back path implementation
-- Branch and jump logic
-
----
-
-# Future Work
-
-After successful single-cycle processor verification:
-
-## Five Stage Pipeline Conversion
-
-Implement classic RISC-V pipeline stages:
+Pipeline stages:
 
 ### IF Stage
+
 - Program Counter
 - Instruction Memory
 
 ### ID Stage
+
 - Instruction Decode
 - Register File
 - Immediate Generator
-- Control Unit
+- Main Control
 
 ### EX Stage
-- ALU Execution
+
+- ALU
 - ALU Control
-- Branch Calculation
+- Branch Address Calculation
 
 ### MEM Stage
-- Data Memory Access
+
+- Data Memory
 
 ### WB Stage
+
 - Register Write Back
 
 ---
 
-# Pipeline Features
-
-Planned additions:
+# Planned Pipeline Features
 
 - IF/ID Pipeline Register
 - ID/EX Pipeline Register
@@ -333,6 +406,7 @@ Planned additions:
 - Hazard Detection Unit
 - Load-Use Stall Logic
 - Branch Flush Logic
+- Pipeline Control Logic
 - Complete Five-Stage Pipeline Integration
 
 ---
@@ -340,7 +414,7 @@ Planned additions:
 # Tools
 
 - Verilog HDL
-- Xilinx Vivado
+- Xilinx Vivado 2019.1
 - GitHub
 
 ---
