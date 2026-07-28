@@ -85,10 +85,12 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │   ├── tb_MainControl.v
 │   └── tb_Top.v
 │
-├── program.mem
+├── programs/
+│   ├── program.mem
+│   └── Instructions.md
+│
 └── README.md
 ```
-
 ---
 
 # Development Workflow
