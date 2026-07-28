@@ -5,7 +5,20 @@ module Datapath(
     output [31:0] debug_instruction,
     output [31:0] debug_alu_result,
     output [31:0] debug_writeback,
-    output [31:0] debug_read_data
+    output [31:0] debug_read_data,
+    output [31:0] debug_read_data1,
+    output [31:0] debug_read_data2,
+    output [31:0] debug_imm,
+
+    output        debug_RegWrite,
+    output        debug_MemWrite,
+    output        debug_Branch,
+    output        debug_Jump,
+    output        debug_ALUSrc,
+    output        debug_MemtoReg,
+    output        debug_Zero,
+
+output [2:0] debug_ALUControl
 );
     // IF stage
     wire [31:0] pc_current;
@@ -119,5 +132,16 @@ module Datapath(
     assign debug_alu_result  = ALU_result;
     assign debug_writeback   = writeback_data;
     assign debug_read_data   = read_data;
+    assign debug_read_data1  = read_data1;
+    assign debug_read_data2  = read_data2;
+    assign debug_imm         = imm_out;
+    assign debug_RegWrite    = RegWrite;
+    assign debug_MemWrite    = MemWrite;
+    assign debug_Branch      = Branch;
+    assign debug_Jump        = Jump;
+    assign debug_ALUSrc      = ALUSrc;
+    assign debug_MemtoReg    = MemtoReg;
+    assign debug_Zero        = Zero;
+    assign debug_ALUControl  = ALUControl;
 
 endmodule
