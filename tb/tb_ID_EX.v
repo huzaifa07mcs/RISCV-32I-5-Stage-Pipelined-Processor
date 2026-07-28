@@ -20,7 +20,7 @@ reg [2:0] funct3_in;
 reg funct7_5_in;
 
 reg ALUSrc_in;
-reg [2:0] ALUControl_in;
+reg [1:0] ALUOp_in;
 reg Branch_in;
 reg Jump_in;
 reg MemWrite_in;
@@ -41,7 +41,7 @@ wire [2:0] funct3_out;
 wire funct7_5_out;
 
 wire ALUSrc_out;
-wire [2:0] ALUControl_out;
+wire [1:0] ALUOp_out;
 wire Branch_out;
 wire Jump_out;
 wire MemWrite_out;
@@ -67,7 +67,7 @@ ID_EX dut(
     .funct7_5_in(funct7_5_in),
 
     .ALUSrc_in(ALUSrc_in),
-    .ALUControl_in(ALUControl_in),
+    .ALUOp_in(ALUOp_in),
     .Branch_in(Branch_in),
     .Jump_in(Jump_in),
     .MemWrite_in(MemWrite_in),
@@ -88,7 +88,7 @@ ID_EX dut(
     .funct7_5_out(funct7_5_out),
 
     .ALUSrc_out(ALUSrc_out),
-    .ALUControl_out(ALUControl_out),
+    .ALUOp_out(ALUOp_out),
     .Branch_out(Branch_out),
     .Jump_out(Jump_out),
     .MemWrite_out(MemWrite_out),
@@ -118,20 +118,21 @@ begin
     funct7_5_in = 0;
 
     ALUSrc_in = 0;
-    ALUControl_in = 0;
+    ALUOp_in = 0;
     Branch_in = 0;
     Jump_in = 0;
     MemWrite_in = 0;
     RegWrite_in = 0;
     MemToReg_in = 0;
 
-    $monitor("Time=%0t | PC=%h | RS1=%h | RS2=%h | IMM=%h | RD=%d | RegWrite=%b",
+    $monitor("Time=%0t | PC=%h | RS1=%h | RS2=%h | IMM=%h | RD=%d | ALUOp=%b | RegWrite=%b",
     $time,
     pc_out,
     rs1_data_out,
     rs2_data_out,
     imm_out,
     rd_out,
+    ALUOp_out,
     RegWrite_out);
 
     #10;
@@ -155,7 +156,7 @@ begin
     funct7_5_in = 1'b0;
 
     ALUSrc_in = 0;
-    ALUControl_in = 3'b010;
+    ALUOp_in = 2'b10;
 
     Branch_in = 0;
     Jump_in = 0;
@@ -172,6 +173,7 @@ begin
     #20;
 
     $finish;
+
 end
 
 endmodule
