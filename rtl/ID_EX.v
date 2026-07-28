@@ -17,7 +17,7 @@ module ID_EX(
     input funct7_5_in,
 
     input ALUSrc_in,
-    input [2:0] ALUControl_in,
+    input [1:0] ALUOp_in,
     input Branch_in,
     input Jump_in,
     input MemWrite_in,
@@ -38,7 +38,7 @@ module ID_EX(
     output reg funct7_5_out,
 
     output reg ALUSrc_out,
-    output reg [2:0] ALUControl_out,
+    output reg [1:0] ALUOp_out,
     output reg Branch_out,
     output reg Jump_out,
     output reg MemWrite_out,
@@ -64,7 +64,7 @@ begin
         funct7_5_out <= 1'b0;
 
         ALUSrc_out <= 1'b0;
-        ALUControl_out <= 3'b0;
+        ALUOp_out <= 2'b0;
         Branch_out <= 1'b0;
         Jump_out <= 1'b0;
         MemWrite_out <= 1'b0;
@@ -87,7 +87,7 @@ begin
         funct7_5_out <= funct7_5_in;
 
         ALUSrc_out <= ALUSrc_in;
-        ALUControl_out <= ALUControl_in;
+        ALUOp_out <= ALUOp_in;
         Branch_out <= Branch_in;
         Jump_out <= Jump_in;
         MemWrite_out <= MemWrite_in;
