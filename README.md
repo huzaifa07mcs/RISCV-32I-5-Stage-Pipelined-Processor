@@ -1,56 +1,110 @@
 # RV32I 5-Stage Pipelined Processor
 
-A 32-bit Single-Core RISC-V (RV32I) processor implemented in Verilog HDL.
-The project was developed incrementally by first building and verifying a functionally correct **single-cycle processor**, and then converting it into a classic **five-stage pipelined processor** with data forwarding, hazard detection, load-use stalling, and branch handling.
+A 32-bit single-core RISC-V (RV32I subset) processor implemented from scratch in Verilog HDL — designed, verified, and pipelined incrementally following a professional RTL development workflow: specification → implementation → testbench → simulation → integration.
+
+The project was built in two phases: a functionally verified single-cycle processor, followed by its conversion into a classic five-stage pipelined processor with data forwarding, hazard detection, load-use stalling, and predict-not-taken branch handling.
 
 ---
 
-# Project Objectives
-
-- Design and implement a 32-bit Single-Core RISC-V (RV32I) processor.
-- Develop and verify a functionally correct single-cycle processor.
-- Convert the design into a five-stage pipelined processor.
-- Implement forwarding, hazard detection, load-use stall logic, and branch handling.
-- Follow modular RTL design and verification practices.
-- Maintain proper documentation and verification for every hardware module.
+## Table of Contents
+- [Highlights](#highlights)
+- [Processor Specifications](#processor-specifications)
+- [Supported Instructions](#supported-instructions)
+- [Pipeline Architecture](#pipeline-architecture)
+- [Hazard Handling](#hazard-handling)
+- [RTL Schematic](#rtl-schematic)
+- [Repository Structure](#repository-structure)
+- [Development Workflow](#development-workflow)
+- [Module Status](#module-status)
+- [Verification](#verification)
+- [Simulation Results Summary](#simulation-results-summary)
+- [Waveforms](#waveforms)
+- [Future Work](#future-work)
+- [Tools](#tools)
+- [License](#license)
 
 ---
 
-# Processor Specifications
+## Highlights
+- Complete RV32I subset datapath, built and verified module-by-module before integration
+- Two working, independently verified processors in one repo: single-cycle (reference) and 5-stage pipelined (active)
+- Full hazard handling: data forwarding, load-use stall detection, and control hazard flushing
+- Predict-not-taken branch resolution in the EX stage
+- Every module backed by a written specification and a self-checking testbench
+- End-to-end verification against a hand-traced test program, with cycle-accurate simulation metrics
+
+---
+
+## Processor Specifications
 
 | Feature | Specification |
-|----------|---------------|
-| ISA | RV32I (Subset) |
-| Architecture | Single-Core |
-| Pipeline | 5-Stage (IF, ID, EX, MEM, WB) |
-| Data Width | 32-bit |
-| Register File | 32 × 32-bit |
-| Instruction Memory | Word-addressable |
-| Data Memory | Word-addressable |
-| Language | Verilog HDL |
-| Development Flow | Single-Cycle → Pipelined |
-| Branch Strategy | Predict-Not-Taken, EX-stage resolution |
+| :--- | :--- |
+| **ISA** | RV32I (Subset) |
+| **Architecture** | Single-Core |
+| **Pipeline** | 5-Stage (IF, ID, EX, MEM, WB) |
+| **Data Width** | 32-bit |
+| **Address Width** | 32-bit |
+| **Register File** | 32 × 32-bit, x0 hardwired to zero |
+| **Memory** | Word-addressable, byte-semantics preserved |
+| **Endianness** | Little Endian |
+| **Clock** | Single clock domain |
+| **Reset** | Synchronous, active-high |
+| **Branch Strategy** | Predict-Not-Taken, EX-stage resolution |
+| **Language** | Verilog HDL |
+| **Simulation Tool** | Xilinx Vivado (XSim) |
 
 ---
 
-# Supported Instructions
+## Supported Instructions
 
 | Type | Instructions |
-|------|--------------|
-| R-Type | ADD, SUB, AND, OR, XOR, SLT |
-| I-Type | ADDI, LW |
-| S-Type | SW |
-| B-Type | BEQ, BNE |
-| J-Type | JAL |
+| :--- | :--- |
+| **R-Type** | ADD, SUB, AND, OR, XOR, SLT |
+| **I-Type** | ADDI, LW |
+| **S-Type** | SW |
+| **B-Type** | BEQ, BNE |
+| **J-Type** | JAL |
 
 ---
 
-# Project Structure
+## Pipeline Architecture
+
+| Stage | Description |
+| :--- | :--- |
+| **IF** | Instruction Fetch — PC-driven instruction memory read |
+| **ID** | Instruction Decode — register read, immediate generation, control decode |
+| **EX** | Execute — ALU operation, branch/jump target resolution |
+| **MEM** | Memory Access — load/store to data memory |
+| **WB** | Write Back — result written to the register file |
+
+Pipeline registers (IF/ID, ID/EX, EX/MEM, MEM/WB) carry data and control signals between stages, with support for stalling and flushing.
+
+---
+
+## Hazard Handling
+
+| Mechanism | Purpose |
+| :--- | :--- |
+| **Forwarding Unit** | Resolves RAW data hazards by forwarding EX/MEM and MEM/WB results directly into the EX stage, avoiding unnecessary stalls |
+| **Hazard Detection Unit** | Detects load-use hazards (an instruction using data from an immediately preceding LW) and stalls IF/ID for one cycle |
+| **Branch Handling** | Predict-not-taken; branches and jumps resolve in EX, and a taken outcome flushes IF/ID and ID/EX (2-cycle misprediction penalty) |
+
+---
+
+## RTL Schematic
+
+Synthesized schematic of the pipelined datapath:
+
+![RTL Schematic](RTL%20Schematic.png)
+
+---
+
+## Repository Structure
 
 ```text
 RISCV-32I-5-Stage-Pipelined-Processor/
 │
-├── docs/
+├── docs/                                   Module and system-level specifications
 │   ├── Specification.md
 │   ├── SingleCycle_Datapath_Specification.md
 │   ├── Datapath_Pipelined_Specification.md
@@ -69,7 +123,7 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │   ├── Forwarding_Unit_Specification.md
 │   └── HazardDetectionUnit_Specification.md
 │
-├── rtl/
+├── rtl/                                    Verilog source (single-cycle + pipelined)
 │   ├── ALU.v
 │   ├── ALUControl.v
 │   ├── DataMemory.v
@@ -89,7 +143,7 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │   ├── SingleCycleDatapath.v
 │   └── SingleCycleTop.v
 │
-├── tb/
+├── tb/                                     Self-checking testbenches
 │   ├── tb_ALU.v
 │   ├── tb_ALUControl.v
 │   ├── tb_DataMemory.v
@@ -107,13 +161,13 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │   ├── tb_RegisterFile.v
 │   └── tb_SinglecycleTop.v
 │
-├── Test Programs/
+├── Test Programs/                          Assembled test programs (hex + listings)
 │   ├── Single_Cycle_Hex.mem
 │   ├── Pipelined_Hex.mem
 │   ├── Single-Cycle_Test_Instructions.md
 │   └── Pipelined_Test_Instructions.md
 │
-├── Verification Results/
+├── Verification Results/                   Simulation logs, metrics, and waveforms
 │   ├── Simulation Test Results.md
 │   ├── Execution Results.png
 │   ├── Waveform 1.png
@@ -124,150 +178,116 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │
 ├── RTL Schematic.png
 └── README.md
-```
+
+## Development Workflow
+
+Every module in this project was built following the same disciplined flow:
+
+1. **Specify** — write the module spec (purpose, ports, behavior, edge cases) before writing any RTL
+2. **Implement** — write the Verilog RTL
+3. **Test** — write a self-checking testbench (no manual waveform inspection required to pass/fail)
+4. **Simulate** — run functional simulation in Vivado XSim
+5. **Verify** — confirm expected behavior against the spec
+6. **Fix** — debug and correct any issues found
+7. **Integrate** — commit the verified module and integrate into the datapath
+
+This mirrors a real hardware development flow rather than a single "write everything, debug at the end" pass.
 
 ---
 
-# Development Workflow
+## Module Status
 
-Each module follows the workflow below:
-
-1. Define the module specification.
-2. Implement the RTL in Verilog HDL.
-3. Develop the corresponding testbench.
-4. Perform functional simulation.
-5. Verify expected behavior.
-6. Fix bugs if required.
-7. Commit the verified module to GitHub.
-
----
-
-# Completed Hardware Modules
-
-## Program Counter (PC)
-Stores the current instruction address and updates it every clock cycle, with stall support for pipeline hazards.
-**RTL ✅ | Testbench ✅ | Simulation ✅**
-
-## Instruction Memory
-Stores program instructions and fetches them using the Program Counter (word-addressable).
-**RTL ✅ | Testbench ✅ | Simulation ✅**
-
-## Register File
-32 general-purpose RV32I registers, two read ports, one write port, x0 hardwired to zero.
-**RTL ✅ | Testbench ✅ | Simulation ✅**
-
-## Immediate Generator
-Generates immediate values for I, S, B, and J instruction formats.
-**RTL ✅ | Testbench ✅ | Simulation ✅**
-
-## ALU
-Performs ADD, SUB, AND, OR, XOR, SLT operations.
-**RTL ✅ | Testbench ✅ | Simulation ✅**
-
-## Data Memory
-Stores load/store data with synchronous writes and combinational reads (word-addressable).
-**RTL ✅ | Testbench ✅ | Simulation ✅**
-
-## ALU Control Unit
-Generates ALU control signals from ALUOp, funct3, and funct7.
-**RTL ✅ | Testbench ✅ | Simulation ✅**
-
-## Main Control Unit
-Generates all datapath control signals: RegWrite, ALUSrc, MemWrite, MemtoReg, Branch, Jump, ALUOp, ImmSrc.
-**RTL ✅ | Testbench ✅ | Simulation ✅**
-
-## Single-Cycle Datapath
-Integrates all verified modules into a complete RV32I single-cycle processor — preserved as a reference implementation.
-**RTL ✅ | Simulation ✅ | Verification ✅**
-
-## IF/ID, ID/EX, EX/MEM, MEM/WB Pipeline Registers
-Latch and propagate control/data signals between pipeline stages, with flush and stall support.
-**RTL ✅ | Testbench ✅ | Simulation ✅**
-
-## Forwarding Unit
-Resolves RAW data hazards by forwarding EX/MEM and MEM/WB results directly into the EX stage.
-**RTL ✅ | Testbench ✅ | Simulation ✅**
-
-## Hazard Detection Unit
-Detects load-use hazards and stalls the IF and ID stages by one cycle, using MemToReg as the load flag.
-**RTL ✅ | Testbench ✅ | Simulation ✅**
-
-## Pipelined Datapath
-Full 5-stage pipeline integration with forwarding, hazard detection, and predict-not-taken branch handling (2-cycle misprediction penalty, flushing IF/ID and ID/EX).
-**RTL ✅ | Simulation ✅ | Verification ✅**
+| Module | Spec | RTL | Testbench | Simulation | Status |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Program Counter** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **Instruction Memory** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **Register File** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **Immediate Generator** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **ALU** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **ALU Control** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **Main Control** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **Data Memory** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **Single-Cycle Datapath** | ✅ | ✅ | ✅ | ✅ | Complete (reference) |
+| **IF/ID Register** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **ID/EX Register** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **EX/MEM Register** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **MEM/WB Register** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **Forwarding Unit** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **Hazard Detection Unit** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **Pipelined Datapath** | ✅ | ✅ | ✅ | ✅ | Complete |
+| **Full Processor Integration** | ✅ | ✅ | — | ✅ | Complete |
 
 ---
 
-# Processor Verification
+## Verification
 
-The complete pipelined processor has been verified with a comprehensive RISC-V test program executing all supported instruction types, including load-use hazards, forwarding chains, taken/not-taken branches, and jumps.
+The complete pipelined processor was verified against a comprehensive RISC-V test program exercising every supported instruction, load-use hazards, forwarding chains, taken and not-taken branches, and jumps.
 
-### Verified Instructions
-ADDI, ADD, SUB, AND, OR, XOR, SLT, LW, SW, BEQ, BNE, JAL
+**Verified instructions:** `ADDI` `ADD` `SUB` `AND` `OR` `XOR` `SLT` `LW` `SW` `BEQ` `BNE` `JAL`
 
-### Verified Functionality
-- Correct PC update and stall behavior
+**Verified functionality:**
+- Correct PC update, including stall behavior
 - Correct instruction fetch, decode, and register read/write
-- Correct immediate generation for all formats
-- Correct ALU operations and forwarding across dependent instructions
-- Correct load-use hazard detection and stalling
-- Correct memory read/write
-- Correct write-back path (including JAL link register)
-- Correct branch resolution (BEQ/BNE) with predict-not-taken flushing
-- Correct jump handling (JAL) with pipeline flush
-- Correct end-of-program self-loop behavior
+- Correct immediate generation across all instruction formats
+- Correct ALU operation and forwarding across dependent instructions
+- Correct load-use hazard detection and single-cycle stalling
+- Correct data memory read/write
+- Correct write-back path, including the JAL link-register override (PC + 4)
+- Correct branch resolution (BEQ/BNE), both taken and not-taken
+- Correct jump handling with pipeline flush
+- Correct steady-state behavior at the program's end-of-execution self-loop
 
-Full cycle-by-cycle simulation results, waveforms, and final register/memory verification are documented in [`Verification Results/Simulation Test Results.md`](./Verification%20Results/Simulation%20Test%20Results.md).
-
----
-
-# Project Progress
-
-| Module | RTL | Testbench | Simulation | Status |
-|---------|:---:|:---------:|:----------:|:------:|
-| Program Counter | ✅ | ✅ | ✅ | Complete |
-| Instruction Memory | ✅ | ✅ | ✅ | Complete |
-| Register File | ✅ | ✅ | ✅ | Complete |
-| Immediate Generator | ✅ | ✅ | ✅ | Complete |
-| ALU | ✅ | ✅ | ✅ | Complete |
-| Data Memory | ✅ | ✅ | ✅ | Complete |
-| ALU Control | ✅ | ✅ | ✅ | Complete |
-| Main Control | ✅ | ✅ | ✅ | Complete |
-| Single-Cycle Datapath | ✅ | ✅ | ✅ | Complete |
-| IF/ID Register | ✅ | ✅ | ✅ | Complete |
-| ID/EX Register | ✅ | ✅ | ✅ | Complete |
-| EX/MEM Register | ✅ | ✅ | ✅ | Complete |
-| MEM/WB Register | ✅ | ✅ | ✅ | Complete |
-| Forwarding Unit | ✅ | ✅ | ✅ | Complete |
-| Hazard Detection Unit | ✅ | ✅ | ✅ | Complete |
-| Pipelined Datapath | ✅ | ✅ | ✅ | Complete |
-| Full Processor Verification | ✅ | ✅ | ✅ | Complete |
+Full cycle-by-cycle results and final register/memory state comparison are documented in `Verification Results/Simulation Test Results.md`.
 
 ---
 
-# Current Milestone
+## Simulation Results Summary
 
-Completed:
-
-- ✅ Single-cycle processor specification, RTL, and verification
-- ✅ Pipeline conversion with all four pipeline registers
-- ✅ Forwarding Unit and Hazard Detection Unit
-- ✅ Load-use stall logic
-- ✅ Predict-not-taken branch handling with flush logic
-- ✅ Full pipelined datapath integration
-- ✅ End-to-end program execution and verification
-
----
-
-
-# Tools
-
-- Verilog HDL
-- Xilinx Vivado
-- GitHub
+| Metric | Value |
+| :--- | :--- |
+| **Total Executed Cycles** | 113 |
+| **Total Register Writes** | 71 |
+| **Total Data Memory Writes** | 9 |
+| **Control Hazards Evaluated (Branches/Jumps)** | 9 |
+| **Hazard Stalls** | 11 |
+| **Pipeline Flushes** | 7 |
+| **Result** | All checks passed — program execution verified correct against hand-traced expected state |
 
 ---
 
-# License
+## Waveforms
 
-This project is developed for learning, educational, and portfolio purposes.
+Captured from Vivado XSim, showing PC progression, pipeline register contents, forwarding signals, and stall/flush activity:
+
+Console execution log:
+![Execution Results](Verification%20Results/Execution%20Results.png)
+
+Pipeline waveforms:
+![Waveform 1](Verification%20Results/Waveform%201.png)
+![Waveform 2](Verification%20Results/Waveform%202.png)
+![Waveform 3](Verification%20Results/Waveform%203.png)
+![Waveform 4](Verification%20Results/Waveform%204.png)
+
+The full signal configuration is available in `Verification Results/Full Waveform.wcfg` — open it in Vivado's waveform viewer to reproduce this exact signal layout.
+
+---
+
+## Future Work
+
+- **ID-stage branch comparator** — move branch comparison earlier to resolve branches in ID instead of EX, reducing the misprediction penalty from 2 cycles to 1
+- Continued documentation and diagramming as the project is extended
+
+---
+
+## Tools
+
+- **Verilog HDL** — RTL implementation
+- **Xilinx Vivado (XSim)** — simulation and synthesis
+- **RARS** — RISC-V assembler used to assemble and cross-check test programs
+- **Git / GitHub** — version control, with incremental commits per module
+
+---
+
+## License
+
+This project was developed for learning, educational, and portfolio purposes.
