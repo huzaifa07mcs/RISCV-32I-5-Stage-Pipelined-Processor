@@ -211,7 +211,7 @@ This mirrors a real hardware development flow rather than a single "write everyt
 | **ALU Control** | ✅ | ✅ | ✅ | ✅ | Complete |
 | **Main Control** | ✅ | ✅ | ✅ | ✅ | Complete |
 | **Data Memory** | ✅ | ✅ | ✅ | ✅ | Complete |
-| **Single-Cycle Datapath** | ✅ | ✅ | ✅ | ✅ | Complete (reference) |
+| **Single-Cycle Datapath** | ✅ | ✅ | ✅ | ✅ | Complete |
 | **IF/ID Register** | ✅ | ✅ | ✅ | ✅ | Complete |
 | **ID/EX Register** | ✅ | ✅ | ✅ | ✅ | Complete |
 | **EX/MEM Register** | ✅ | ✅ | ✅ | ✅ | Complete |
@@ -275,11 +275,6 @@ Pipeline waveforms:
 The full signal configuration is available in `Verification Results/Full Waveform.wcfg` — open it in Vivado's waveform viewer to reproduce this exact signal layout.
 
 ---
-
-## Future Work
-
-- **ID-stage branch comparator** — move branch comparison earlier to resolve branches in ID instead of EX, reducing the misprediction penalty from 2 cycles to 1
-- Continued documentation and diagramming as the project is extended
 
 ---
 
