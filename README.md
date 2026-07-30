@@ -178,6 +178,10 @@ RISCV-32I-5-Stage-Pipelined-Processor/
 │
 ├── RTL Schematic.png
 └── README.md
+```
+
+---
+
 
 ## Development Workflow
 
