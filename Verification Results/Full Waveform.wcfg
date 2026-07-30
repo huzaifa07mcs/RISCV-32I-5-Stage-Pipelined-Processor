@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_riscv_top_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_riscv_top" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="6166666666fs"></ZoomStartTime>
+      <ZoomEndTime time="6778757347fs"></ZoomEndTime>
+      <Cursor1Time time="7000000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="175"></NameColumnWidth>
+      <ValueColumnWidth column_width="99"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="52" />
+   <wvobject fp_name="/tb_riscv_top/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_pc" type="array">
+      <obj_property name="ElementShortName">debug_pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_pc[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_instruction" type="array">
+      <obj_property name="ElementShortName">debug_instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_if_id_pc" type="array">
+      <obj_property name="ElementShortName">debug_if_id_pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_if_id_pc[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_if_id_instruction" type="array">
+      <obj_property name="ElementShortName">debug_if_id_instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_if_id_instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_read_data1" type="array">
+      <obj_property name="ElementShortName">debug_read_data1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_read_data1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_read_data2" type="array">
+      <obj_property name="ElementShortName">debug_read_data2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_read_data2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_imm" type="array">
+      <obj_property name="ElementShortName">debug_imm[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_imm[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_id_rs1" type="array">
+      <obj_property name="ElementShortName">debug_id_rs1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_id_rs1[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_id_rs2" type="array">
+      <obj_property name="ElementShortName">debug_id_rs2[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_id_rs2[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_id_rd" type="array">
+      <obj_property name="ElementShortName">debug_id_rd[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_id_rd[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_id_ex_pc" type="array">
+      <obj_property name="ElementShortName">debug_id_ex_pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_id_ex_pc[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_id_ex_rs1" type="array">
+      <obj_property name="ElementShortName">debug_id_ex_rs1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_id_ex_rs1[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_id_ex_rs2" type="array">
+      <obj_property name="ElementShortName">debug_id_ex_rs2[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_id_ex_rs2[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_id_ex_rd" type="array">
+      <obj_property name="ElementShortName">debug_id_ex_rd[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_id_ex_rd[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_alu_result" type="array">
+      <obj_property name="ElementShortName">debug_alu_result[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_alu_result[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_ALUControl" type="array">
+      <obj_property name="ElementShortName">debug_ALUControl[2:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_ALUControl[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_Zero" type="logic">
+      <obj_property name="ElementShortName">debug_Zero</obj_property>
+      <obj_property name="ObjectShortName">debug_Zero</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_ForwardA" type="array">
+      <obj_property name="ElementShortName">debug_ForwardA[1:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_ForwardA[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_ForwardB" type="array">
+      <obj_property name="ElementShortName">debug_ForwardB[1:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_ForwardB[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_stall" type="logic">
+      <obj_property name="ElementShortName">debug_stall</obj_property>
+      <obj_property name="ObjectShortName">debug_stall</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_flush" type="logic">
+      <obj_property name="ElementShortName">debug_flush</obj_property>
+      <obj_property name="ObjectShortName">debug_flush</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_ex_mem_alu_result" type="array">
+      <obj_property name="ElementShortName">debug_ex_mem_alu_result[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_ex_mem_alu_result[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_ex_mem_rd" type="array">
+      <obj_property name="ElementShortName">debug_ex_mem_rd[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_ex_mem_rd[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_ex_mem_RegWrite" type="logic">
+      <obj_property name="ElementShortName">debug_ex_mem_RegWrite</obj_property>
+      <obj_property name="ObjectShortName">debug_ex_mem_RegWrite</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_ex_mem_MemWrite" type="logic">
+      <obj_property name="ElementShortName">debug_ex_mem_MemWrite</obj_property>
+      <obj_property name="ObjectShortName">debug_ex_mem_MemWrite</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_read_data" type="array">
+      <obj_property name="ElementShortName">debug_read_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_read_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_mem_wb_alu_result" type="array">
+      <obj_property name="ElementShortName">debug_mem_wb_alu_result[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_mem_wb_alu_result[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_mem_wb_mem_data" type="array">
+      <obj_property name="ElementShortName">debug_mem_wb_mem_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_mem_wb_mem_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_mem_wb_rd" type="array">
+      <obj_property name="ElementShortName">debug_mem_wb_rd[4:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_mem_wb_rd[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_writeback" type="array">
+      <obj_property name="ElementShortName">debug_writeback[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_writeback[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_mem_wb_RegWrite" type="logic">
+      <obj_property name="ElementShortName">debug_mem_wb_RegWrite</obj_property>
+      <obj_property name="ObjectShortName">debug_mem_wb_RegWrite</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_RegWrite" type="logic">
+      <obj_property name="ElementShortName">debug_RegWrite</obj_property>
+      <obj_property name="ObjectShortName">debug_RegWrite</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_MemWrite" type="logic">
+      <obj_property name="ElementShortName">debug_MemWrite</obj_property>
+      <obj_property name="ObjectShortName">debug_MemWrite</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_Branch" type="logic">
+      <obj_property name="ElementShortName">debug_Branch</obj_property>
+      <obj_property name="ObjectShortName">debug_Branch</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_Jump" type="logic">
+      <obj_property name="ElementShortName">debug_Jump</obj_property>
+      <obj_property name="ObjectShortName">debug_Jump</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_ALUSrc" type="logic">
+      <obj_property name="ElementShortName">debug_ALUSrc</obj_property>
+      <obj_property name="ObjectShortName">debug_ALUSrc</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/debug_MemtoReg" type="logic">
+      <obj_property name="ElementShortName">debug_MemtoReg</obj_property>
+      <obj_property name="ObjectShortName">debug_MemtoReg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/cycle_count" type="array">
+      <obj_property name="ElementShortName">cycle_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cycle_count[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/reg_writes_count" type="array">
+      <obj_property name="ElementShortName">reg_writes_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">reg_writes_count[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/mem_writes_count" type="array">
+      <obj_property name="ElementShortName">mem_writes_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_writes_count[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/stall_count" type="array">
+      <obj_property name="ElementShortName">stall_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">stall_count[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/flush_count" type="array">
+      <obj_property name="ElementShortName">flush_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">flush_count[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/branch_count" type="array">
+      <obj_property name="ElementShortName">branch_count[31:0]</obj_property>
+      <obj_property name="ObjectShortName">branch_count[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/metrics_printed" type="logic">
+      <obj_property name="ElementShortName">metrics_printed</obj_property>
+      <obj_property name="ObjectShortName">metrics_printed</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/expected_reg" type="array">
+      <obj_property name="ElementShortName">expected_reg[1:31][31:0]</obj_property>
+      <obj_property name="ObjectShortName">expected_reg[1:31][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/expected_mem" type="array">
+      <obj_property name="ElementShortName">expected_mem[0:8][31:0]</obj_property>
+      <obj_property name="ObjectShortName">expected_mem[0:8][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/i" type="array">
+      <obj_property name="ElementShortName">i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/errors" type="array">
+      <obj_property name="ElementShortName">errors[31:0]</obj_property>
+      <obj_property name="ObjectShortName">errors[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/CLK_PERIOD" type="array">
+      <obj_property name="ElementShortName">CLK_PERIOD[31:0]</obj_property>
+      <obj_property name="ObjectShortName">CLK_PERIOD[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_riscv_top/MAX_CYCLES" type="array">
+      <obj_property name="ElementShortName">MAX_CYCLES[31:0]</obj_property>
+      <obj_property name="ObjectShortName">MAX_CYCLES[31:0]</obj_property>
+   </wvobject>
+</wave_config>
